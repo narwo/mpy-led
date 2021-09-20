@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LED Colour picker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+        #colorPicker {
+            height: 160px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>LED colour picker</h1>
+
+<input type="color" id="colorPicker" value="#ff0000">
+
+<script>
+    var ws = new WebSocket("ws://" + location.hostname + ":80");
+    colorPicker.addEventListener("change", onColorPickerChanged, false);
+
+    function onColorPickerChanged(event) {
+        ws.send("change_color " + event.target.value);
+    }
+    
+    ws.onmessage = function (evt) {
+        console.log(evt.data)
+    };
+</script>
+</body>
+</html>
